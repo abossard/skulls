@@ -28,6 +28,8 @@ None up front. The skill writes into two places and creates both lazily:
 
 Nothing needs to exist before you start, and nothing is created speculatively.
 
+In a multi-context repo, `CONTEXT-MAP.md` is an index rather than a third knowledge store. It names contexts and their relationships in one line, then points to the glossary, ADR, issue, or primary source that owns the detail. It never copies implementation narratives, decisions, or evidence.
+
 ## Two artifacts, two bars
 
 The glossary and the ADR are held to different standards, and conflating them is where most of the trouble in this skill comes from.
@@ -40,6 +42,8 @@ The glossary and the ADR are held to different standards, and conflating them is
 | Never holds | Implementation details, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), a scratch pad, general programming concepts | A diary of every choice made this session |
 
 Miss any one of the ADR's three tests and there is no ADR. An easily-reversed decision will just get reversed; an unsurprising one is nobody's question; one with no real alternative records that you did the obvious thing.
+
+When an ADR depends on a factual claim, its optional Evidence section classifies that claim as sourced, observed, inferred, or unknown and records the pointer, scope or version, checked date, and invalidation condition. The decision stays in the ADR; the evidence stays with its owner.
 
 The `CONTEXT.md` rule is the one to actually hold onto, because it is the one that breaks in the field. **It is a glossary and nothing else.** Left unchecked, models treat "write to `CONTEXT.md`" as permission to persist every answer you give, and the file turns into a running spec. This is the most-reported problem with the skill, across several models.
 
@@ -80,6 +84,7 @@ No, and there is no plan for a skill that does. A domain language you do not und
 - New entries define what a thing *is* in one or two sentences and name the words you are giving up under `_Avoid_`.
 - It quotes your code back at you when your code and your sentence disagree.
 - `CONTEXT.md` gets shorter as often as it gets longer.
+- `CONTEXT-MAP.md` remains a one-line-per-context-and-relationship index whose links own the detail.
 
 ## Where it fits
 
