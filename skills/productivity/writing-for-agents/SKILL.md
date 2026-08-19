@@ -42,6 +42,24 @@ Push too little down and the top bloats; push too much and you hide material the
 
 **Sprawl** is the failure mode here: a document simply too long, even when every line is live and unique. Attention thins across the excess, and every extra line is one more to keep relevant. The cure is the ladder: disclose reference behind pointers, and split by branch or sequence so each path carries only what it needs.
 
+## Evidence-backed context maps
+
+An agent's statement is a claim, not evidence. A durable knowledge claim answers six questions:
+
+| Claim | Status | Evidence | Scope | Checked | Invalidated by |
+| --- | --- | --- | --- | --- | --- |
+| What is asserted? | sourced / observed / inferred / unknown | Which primary source or artifact supports it? | Where or which version does it cover? | When was it checked? | What change requires another check? |
+
+Keep the knowledge system as linked Markdown plus repository search until an observed retrieval failure justifies more machinery. Give each artifact one job:
+
+- `CONTEXT.md` holds terse domain vocabulary.
+- ADRs hold durable decisions and their rationale.
+- Issues, specs, and maps hold active or historical work.
+- Tests, CI runs, browser captures, prototypes, and primary sources hold evidence.
+- `CONTEXT-MAP.md` indexes contexts and relationships. It points to detail and never copies it.
+
+Load the map, then follow only the pointers the current task needs. Do not paste complete logs into the knowledge base or create a second summary of evidence that already has an owner. Add embeddings, a database, or a generated UI only after a concrete retrieval failure shows what linked files and search cannot answer.
+
 ## Steps and completion criteria
 
 Every step ends on a **completion criterion**, the condition that tells the agent the work is done. Two properties make it a lever:

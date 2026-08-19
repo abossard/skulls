@@ -46,10 +46,12 @@ _Avoid_: Client, buyer, account
 
 ## Relationships
 
-- **Ordering → Fulfillment**: Ordering emits `OrderPlaced` events; Fulfillment consumes them to start picking
-- **Fulfillment → Billing**: Fulfillment emits `ShipmentDispatched` events; Billing consumes them to generate invoices
-- **Ordering ↔ Billing**: Shared types for `CustomerId` and `Money`
+- **Ordering → Fulfillment**: Fulfillment starts after an Order is placed. See [ADR-0003](./docs/adr/0003-order-fulfillment-handoff.md)
+- **Fulfillment → Billing**: Billing starts after a Shipment is dispatched. See [ADR-0004](./docs/adr/0004-shipment-billing-handoff.md)
+- **Ordering ↔ Billing**: Both use the Customer and Money definitions in their linked context glossaries
 ```
+
+`CONTEXT-MAP.md` is an index, not a store. Keep each relationship to one line and point to the context, ADR, issue, or primary source that owns the detail. Never copy implementation narratives, decisions, or evidence into the map.
 
 The skill infers which structure applies:
 
