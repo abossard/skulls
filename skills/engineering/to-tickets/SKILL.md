@@ -46,6 +46,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
+- **Verification**: how each acceptance criterion will be observed at a public seam
 
 Ask the user:
 
@@ -79,6 +80,12 @@ Do NOT close or modify any parent issue.
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
 
+## Verification
+
+| Acceptance criterion | Method | Expected observation |
+| --- | --- | --- |
+| <criterion 1> | <test, command, browser run, or human judgment> | <observable result> |
+
 </local-ticket-template>
 
 <issue-template>
@@ -96,6 +103,12 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 - [ ] Criterion 1
 - [ ] Criterion 2
 
+## Verification
+
+| Acceptance criterion | Method | Expected observation |
+| --- | --- | --- |
+| <criterion 1> | <test, command, browser run, or human judgment> | <observable result> |
+
 ## Blocked by
 
 - A reference to each blocking ticket, or "None (can start immediately)".
@@ -103,3 +116,5 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 </issue-template>
 
 In either form, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
+
+Every acceptance criterion must have one verification row. The method should survive refactors by naming a public seam rather than an implementation location. For browser work, include the route, starting state, critical interaction, and expected DOM result. A screenshot may support the row but cannot replace a behavioral assertion. Code review is not a verification method.

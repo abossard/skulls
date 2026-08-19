@@ -10,6 +10,8 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 
 Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
 
+This is static inspection. It does not execute the system or demonstrate required behavior. Every finding is a claim to check, and a clean report is not evidence that an acceptance criterion passed. Behavioral verification belongs to `/implement` at the criterion's agreed seam.
+
 The issue tracker should have been provided to you. If `docs/agents/issue-tracker.md` is missing, tell the user to run `/setup-matt-pocock-skills`.
 
 ## Process
@@ -76,6 +78,8 @@ If the spec is missing, skip the Spec sub-agent and note this in the final repor
 Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the two axes are deliberately separate (see _Why two axes_).
 
 End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
+
+Label the report as static review. Do not say the change is verified, proven, or ready based on this report, even when both axes have no findings.
 
 ## Why two axes
 
