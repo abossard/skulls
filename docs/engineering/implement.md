@@ -1,8 +1,10 @@
 ## What it does
 
-`implement` builds work that has already been decided. You point it at a [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the plan you just agreed in the conversation, and it writes the code, drives [tdd](https://aihero.dev/skills-tdd) at the seams, typechecks as it goes, runs [code-review](https://aihero.dev/skills-code-review) at the end, and commits to the current branch.
+`implement` builds work that has already been decided. You point it at a [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the plan you just agreed in the conversation, and it writes the code, drives [tdd](https://aihero.dev/skills-tdd) at the seams, typechecks as it goes, runs [code-review](https://aihero.dev/skills-code-review), and verifies every acceptance criterion before committing to the current branch.
 
 It never reopens the plan. There is no interview, no clarifying round, no proposal of a different approach. Whatever was settled upstream is the input, and the skill's whole job is to turn that into a commit. That is what separates it from typing "build this" at a fresh [agent](https://www.aihero.dev/ai-coding-dictionary/agent), which will happily redesign the work while it builds it.
+
+The completion gate is observed evidence, not the agent's conclusion. A run can say **Done** only when every criterion has a fresh result from its agreed verification method. A clean review, a screenshot, or confident prose cannot stand in for behavior they did not exercise.
 
 ## When to reach for it
 
@@ -30,13 +32,15 @@ If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), the
 
 ## What one run does
 
-A run is five beats, in order:
+A run is seven beats, in order:
 
-1. Read the ticket or spec and work out the seams.
+1. Read the ticket or spec, list its acceptance criteria, and pair each with its agreed seam and verification method.
 2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
 3. Typecheck often, run single test files as it goes.
-4. Run the full test suite once, at the end.
-5. Run [code-review](https://aihero.dev/skills-code-review), then commit to the current branch.
+4. Run [code-review](https://aihero.dev/skills-code-review) as static inspection and address the findings worth acting on.
+5. Run the full test suite once after the last relevant code change.
+6. Produce an evidence table with one row per criterion: method, observed result, and artifact pointer.
+7. Attach the table to the work item, close only when every row is verified, then commit to the current branch.
 
 One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, which is what makes the previous ticket's context disposable.
 
@@ -48,9 +52,9 @@ The word "pre-agreed" is doing real work, and it is also the skill's weakest joi
 
 ## Common questions
 
-**It finished, but my ticket is still open and the acceptance criteria are still unchecked.**
+**Why did it finish as `Unverified` and leave my ticket open?**
 
-Correct, and expected. `implement` has no completion step. It ends at the commit and never touches the work item, confirmed on GitHub Issues and on the local markdown tracker, so it is not a tracker integration problem. It also does not act on the findings `code-review` produced, and does not tick the `- [ ]` boxes on the originating issue. Close the ticket and reconcile the criteria yourself. This bites hardest on a dependency chain, because `to-tickets` defines the frontier as tickets whose blockers are all closed. If nothing gets closed, nothing ever becomes visibly unblocked.
+At least one criterion lacked fresh observed evidence. The table should name the missing check and why it could not run, rather than converting a plausible implementation into a pass. Fix the environment, supply the needed human judgment, or explicitly accept partial work. Until then the criteria stay unchecked and the ticket stays open, so blocked work does not advance on an unsupported claim.
 
 **Can I point it at all my tickets at once, or run several in parallel?**
 
@@ -77,9 +81,12 @@ Probably the ticket is too big rather than the skill being misused. A run does c
 ## It's working if
 
 - The session opens by reading the ticket or spec and restating what it will build, rather than asking you what to build.
+- Every acceptance criterion is paired with a verification method before implementation begins.
 - You can see an actual `/tdd` invocation in the trace, not just tests appearing in the diff.
 - Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
-- The run reaches a commit on your current branch without you prompting it to carry on.
+- The final response contains one evidence-table row per criterion, collected after the last relevant edit.
+- UI rows include browser assertions, console and network checks, and a screenshot whose route, state, viewport, and revision are named.
+- The ticket closes and the run reaches a commit only when every row is verified.
 - The diff is one ticket's worth of change: a vertical slice through every layer, not several tickets swept together.
 
 ## Where it fits

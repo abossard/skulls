@@ -4,13 +4,15 @@
 
 The two axes are never merged and never re-ranked. The report ends with a worst issue *per axis* and refuses to name a single winner across them, because a change can pass one axis and fail the other: code that follows every convention while implementing the wrong thing passes Standards and fails Spec; code that does exactly what the [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket) asked while breaking the repo's conventions does the reverse. A blended verdict lets the passing axis hide the failing one.
 
+This is static inspection. It does not run the system, exercise an acceptance criterion, or prove behavior. Every finding is a checkable claim, and a clean report is not completion evidence.
+
 ## When to reach for it
 
 Type `/code-review`, or the agent reaches for it automatically when you ask to review a branch, a PR, work in progress, or anything "since X".
 
 | Your situation | Reach for |
 | --- | --- |
-| A diff exists and you want to know if it is built right *and* is the right thing | `code-review` |
+| A diff exists and you want static feedback on whether it is built right *and* matches the right thing | `code-review` |
 | You want bugs hunted in the diff: null paths, races, off-by-one | Claude Code's own built-in review, not this one (see the name clash below) |
 | Nothing is written yet and you want it written test-first | [tdd](https://aihero.dev/skills-tdd) |
 | A whole spec needs building, review included | [implement](https://aihero.dev/skills-implement), which calls this skill itself |
@@ -43,6 +45,8 @@ Step 1 depends on `docs/agents/issue-tracker.md`, which [setup-matt-pocock-skill
 
 A generic review skill that does not know your standards is the thing this design is trying to avoid: it flags what is deliberate in your codebase and misses the invariants your codebase actually depends on. So the repo's own documentation is the [primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source) on the Standards axis, and **the repo always overrides**.
 
+Neither axis is a behavioral verification seam. [Implement](https://aihero.dev/skills-implement) owns the separate evidence table that records tests, commands, browser runs, and human judgments against acceptance criteria.
+
 The **smell baseline** is the floor underneath it, twelve Fowler code smells from _Refactoring_ ch.3: Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest. Each is a labelled heuristic ("possible Feature Envy"), never a hard violation, and each is stated as *what it is* → *how to fix*, so a finding arrives with a move attached rather than a complaint. Anything your linter already enforces is skipped by both axes.
 
 ## Common questions
@@ -67,6 +71,8 @@ Both work, and the skill does not decide for you. Per-ticket keeps each diff sma
 
 Not without checking. Sub-agent output is a hypothesis, not evidence: one team reported a dozen breaking changes that prose-based reviews had waved through. The skill aggregates the two reports verbatim or lightly cleaned rather than re-verifying each claim against the files, so a finding can cite the wrong location or overstate an impact. Read the citation on each finding before acting on it. That every finding is required to carry one (a standards rule, a smell plus its hunk, or a spec line) is what makes this checkable at all.
 
+The inverse matters too: zero findings does not verify the change. It only says these two static passes found nothing to report.
+
 **Why does it find new problems every single time I run it?**
 
 Because fixes create new surface, and because the judgement-call half of the Standards axis is not deterministic between runs. One reader described the loop plainly: "/code-review and /improve-code-architecture always find new stuff every time. I implement fixes, rerun these skills, and again and again." There is no convergence guarantee. Treat a pass as a list of leads, act on the ones with a cited rule behind them, and stop: do not run it in a loop until it comes back clean, because it will not.
@@ -82,6 +88,7 @@ No. It diffs `<fixed-point>...HEAD`, three-dot, which is measured from the merge
 - Every Standards finding names either a rule in one of your repo's files or one of the twelve smells, with the hunk quoted; every Spec finding quotes a line of the spec.
 - The closing summary gives a worst issue per axis and declines to pick an overall winner.
 - With no spec available, the Spec block says so instead of listing requirements it inferred from the code.
+- The report identifies itself as static review and never calls the change verified, proven, or ready.
 
 ## Where it fits
 
