@@ -1,6 +1,6 @@
 ## What it does
 
-`to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)**, and publishes it to your issue tracker as a single issue.
+`to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)**, and publishes it to your issue tracker as a single issue. It records the smallest complete set of observable outcomes and assigns each one a verification seam, method, and expected result.
 
 It does not interview you. By the time you reach for it the deciding is already done, so it synthesises what is known (from the thread, from the codebase, from your `CONTEXT.md` and ADRs) rather than opening a fresh round of questions. The spec is a record of decisions already made, not a place where new ones get made.
 
@@ -31,7 +31,7 @@ So it does not validate anything, and it does not decide anything. It captures w
 
 Before it writes a word, `to-spec` sketches the **seams** the feature will be tested at, and checks them with you. It prefers seams that already exist to new ones, and takes the highest seam it can: the ideal number across a change is one.
 
-Those agreed seams then travel. [tdd](https://aihero.dev/skills-tdd) works only at pre-agreed seams, and [code-review](https://aihero.dev/skills-code-review) reviews the diff against the spec, so a seam nobody agreed to shows up as a review finding. The binding is indirect: it runs through this document, which is exactly why the seam conversation is worth taking seriously here rather than deferring it to implementation.
+Those agreed seams then travel. Each outcome appears once in a verification table beside a `test`, `command`, `browser run`, or `human judgment` method and the result that must be observed. [tdd](https://aihero.dev/skills-tdd) works only at pre-agreed seams, and [implement](https://aihero.dev/skills-implement) later fills in the actual evidence. Code review stays static inspection and cannot be selected as a verification method.
 
 ## Common questions
 
@@ -53,8 +53,8 @@ Mostly for the agent, and it reads that way: complete, dense, reference-heavy. T
 **Do I keep the spec frozen once tickets start, or let the agent rewrite it?**
 Nothing keeps it in sync, so in practice it is a snapshot of what you knew at that moment, and it goes stale the first time implementation teaches you something. Treat it as throwaway once the work ships. The artifacts meant to outlive it are your `CONTEXT.md` and your ADRs; if something learned during implementation deserves to last, it belongs there, not in an edited spec.
 
-**My work is a refactor or a module boundary, not a feature. Does the template fit?**
-Less well, and this is a known limitation. The template leans hard on user stories, which is the wrong shape for architectural work: you end up writing stories nobody asked for around decisions that are really about interfaces and invariants. Lean on the implementation-decisions and testing-decisions sections instead, and let the durable architectural calls land as ADRs via [grill-with-docs](https://aihero.dev/skills-grill-with-docs) rather than trying to make the spec carry them.
+**My work is a refactor or a module boundary, not a feature. Does the outcomes template fit?**
+Yes, if the outcomes are observable invariants rather than invented user stories: callers retain the same behavior, one interface replaces two, or a forbidden dependency is rejected by a command. Name the caller or maintainer as the actor only when that helps. Durable architectural calls still belong in ADRs via [grill-with-docs](https://aihero.dev/skills-grill-with-docs), not in a bloated spec.
 
 **Will it check the tracker for related work, or cite the ADRs it's respecting?**
 No to both. It reads and respects the ADRs covering the area it touches, but it doesn't link them, and it doesn't search the tracker for overlapping issues before drafting, so a spec can quietly duplicate work someone already filed. Search the tracker yourself first if the area is busy.
@@ -66,6 +66,8 @@ Very large specs can outgrow what a tracker issue will serve back cleanly, and t
 
 - It starts writing rather than asking you a fresh round of questions.
 - It puts the seams to you before it writes, and proposes as few as it can get away with.
+- Its outcomes are the smallest complete set: removing any one would lose required behavior, while no two say the same thing.
+- Every outcome has exactly one verification row with a public seam, method, and observable result.
 - It comes back in your project's nouns, not generic product-management boilerplate.
 - Every decision in it is one you can remember making. Nothing was invented to fill a section.
 - The out-of-scope section has real things in it: the things you refused are usually the most useful lines on the page.
@@ -78,4 +80,4 @@ Very large specs can outgrow what a tracker issue will serve back cleanly, and t
 grill-with-docs → to-spec → to-tickets → implement → code-review
 ```
 
-Its neighbours upstream are [grill-with-docs](https://aihero.dev/skills-grill-with-docs), which does the deciding this skill only records, and [wayfinder](https://aihero.dev/skills-wayfinder), whose finished map merges onto the chain right here. Downstream, [to-tickets](https://aihero.dev/skills-to-tickets) cuts the spec into tracer-bullet tickets for [implement](https://aihero.dev/skills-implement) to build. When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+Its neighbours upstream are [grill-with-docs](https://aihero.dev/skills-grill-with-docs), which does the deciding this skill only records, and [wayfinder](https://aihero.dev/skills-wayfinder), whose finished map merges onto the chain right here. Downstream, [to-tickets](https://aihero.dev/skills-to-tickets) cuts the spec into tracer-bullet tickets for [implement](https://aihero.dev/skills-implement) to build. When you're unsure which skill or flow fits, [ask-andre](https://github.com/abossard/skulls/blob/main/docs/engineering/ask-andre.md) routes you.

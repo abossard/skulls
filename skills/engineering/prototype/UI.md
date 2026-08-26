@@ -91,11 +91,26 @@ Behaviour:
 
 Put the switcher in a single shared component so both sub-shapes can reuse it. Locate it wherever shared UI lives in the project.
 
-### 5. Hand it over
+### 5. Capture browser evidence
+
+Use the repo's existing browser automation. If none exists, use browser tooling already supplied by the harness rather than installing a framework for a throwaway prototype. If neither is available, mark browser behavior unverified and hand the user the exact manual path to check.
+
+Run against deterministic data or a named fixture at a fixed viewport:
+
+1. Open each `?variant=` URL and assert that the expected variant is present in the DOM.
+2. Drive the critical interaction or state transition the prototype exists to expose.
+3. Assert the resulting DOM state, then inspect console errors and failed network requests.
+4. Capture a screenshot of each decision-bearing state. Record the route and params, viewport, fixture or starting state, and revision beside its path.
+
+Use the repo's existing artifact location, or the OS temp directory when it has none. Point at the concise browser result and screenshots rather than committing complete traces or inventing a permanent evidence folder. A screenshot verifies appearance at one state. It does not replace the DOM assertion or prove the interaction works.
+
+### 6. Hand it over
 
 Surface the URL (and the `?variant=` keys). The user will flip through whenever they get to it. The interesting feedback is usually **"I want the header from B with the sidebar from C"**, which is the actual design they want.
 
-### 6. Capture the answer and clean up
+Record the human's verdict separately from the browser evidence. The agent must not select a winning variant on the user's behalf.
+
+### 7. Capture the answer and clean up
 
 Once a variant has won, capture the answer (which variant and why), then capture the prototype the way the [SKILL](SKILL.md) describes. Fold the winner into the real code and move the rest onto the throwaway branch, not into main:
 

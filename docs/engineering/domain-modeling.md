@@ -28,6 +28,8 @@ None up front. The skill writes into two places and creates both lazily:
 
 Nothing needs to exist before you start, and nothing is created speculatively.
 
+In a multi-context repo, `CONTEXT-MAP.md` is an index rather than a third knowledge store. It names contexts and their relationships in one line, then points to the glossary, ADR, issue, or primary source that owns the detail. It never copies implementation narratives, decisions, or evidence.
+
 ## Two artifacts, two bars
 
 The glossary and the ADR are held to different standards, and conflating them is where most of the trouble in this skill comes from.
@@ -40,6 +42,8 @@ The glossary and the ADR are held to different standards, and conflating them is
 | Never holds | Implementation details, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), a scratch pad, general programming concepts | A diary of every choice made this session |
 
 Miss any one of the ADR's three tests and there is no ADR. An easily-reversed decision will just get reversed; an unsurprising one is nobody's question; one with no real alternative records that you did the obvious thing.
+
+When an ADR depends on a factual claim, its optional Evidence section classifies that claim as sourced, observed, inferred, or unknown and records the pointer, scope or version, checked date, and invalidation condition. The decision stays in the ADR; the evidence stays with its owner.
 
 The `CONTEXT.md` rule is the one to actually hold onto, because it is the one that breaks in the field. **It is a glossary and nothing else.** Left unchecked, models treat "write to `CONTEXT.md`" as permission to persist every answer you give, and the file turns into a running spec. This is the most-reported problem with the skill, across several models.
 
@@ -80,7 +84,8 @@ No, and there is no plan for a skill that does. A domain language you do not und
 - New entries define what a thing *is* in one or two sentences and name the words you are giving up under `_Avoid_`.
 - It quotes your code back at you when your code and your sentence disagree.
 - `CONTEXT.md` gets shorter as often as it gets longer.
+- `CONTEXT-MAP.md` remains a one-line-per-context-and-relationship index whose links own the detail.
 
 ## Where it fits
 
-`domain-modeling` is a **model-invoked reference** that runs *underneath* other skills more often than it runs on its own. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) drives it through a grilling session, [wayfinder](https://aihero.dev/skills-wayfinder) loads it while charting a map, [triage](https://aihero.dev/skills-triage) uses it to keep [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) in the project's own words, and [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) calls it as decisions crystallise. Its closest sibling is [codebase-design](https://aihero.dev/skills-codebase-design): the two are the vocabulary layer under everything else, this one for the *domain*, that one for the module's *shape*. It is also reachable directly, when you want the discipline without committing to the steps of whatever skill would normally pull it in. When you are unsure which skill fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+`domain-modeling` is a **model-invoked reference** that runs *underneath* other skills more often than it runs on its own. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) drives it through a grilling session, [wayfinder](https://aihero.dev/skills-wayfinder) loads it while charting a map, [triage](https://aihero.dev/skills-triage) uses it to keep [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) in the project's own words, and [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) calls it as decisions crystallise. Its closest sibling is [codebase-design](https://aihero.dev/skills-codebase-design): the two are the vocabulary layer under everything else, this one for the *domain*, that one for the module's *shape*. It is also reachable directly, when you want the discipline without committing to the steps of whatever skill would normally pull it in. When you are unsure which skill fits, [ask-andre](https://github.com/abossard/skulls/blob/main/docs/engineering/ask-andre.md) routes you.

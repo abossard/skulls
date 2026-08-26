@@ -17,7 +17,7 @@ Four situations are the whole trigger:
 | Sending the work to a colleague | They need something they can read |
 | Forking a side task found mid-phase | You keep working; a second agent takes the fork |
 
-For anything else (same harness, same directory, you are done [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) and moving to implementation), `/compact` is the move. [ask-matt](https://aihero.dev/skills-ask-matt) carries the ordered tree over all five options at a phase boundary.
+For anything else (same harness, same directory, you are done [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) and moving to implementation), `/compact` is the move. [ask-andre](https://github.com/abossard/skulls/blob/main/docs/engineering/ask-andre.md) carries the ordered tree over all five options at a phase boundary.
 
 ## Branching is the use people skip
 
@@ -29,9 +29,11 @@ Three of the five options at a phase boundary preserve different things: `/compa
 
 ## What travels, and what doesn't
 
-The document carries the live thread (what's in flight, why, and what's next) plus a **suggested skills** section naming what the next agent should reach for. Secrets are redacted before it's written.
+The document carries the live thread (what's in flight, why, and what's next) plus a **suggested skills** section naming what the next agent should reach for. It also carries three evidence sections: **Verified**, with the method and observed result; **Unverified**, with the missing check; and **Evidence pointers**, with the path or URL and what it supports. Secrets are redacted before it's written.
 
 What it deliberately does not carry is anything already written down. Specs, plans, ADRs, issues, commits and diffs are referenced by path or URL, never copied. That keeps the file small, and it keeps the settled detail in one place instead of two that drift.
+
+An agent statement never moves a claim into Verified. Tests, commands, browser runs, primary sources, and explicit human judgments can. Human judgment verifies a decision, not system behavior.
 
 ## Common questions
 
@@ -57,7 +59,7 @@ Analogous, not identical, and `/branch` isn't a shipped skill here; `/handoff` i
 Ask whether it's true next month. `CLAUDE.md` is standing context about the project, loaded into every session whether it's relevant or not. A handoff is about one piece of work in flight and is dead once that work lands. Facts that keep getting re-explained are a `CLAUDE.md` problem; a half-finished task is a handoff.
 
 **It captures the what, not the why.**
-A fair and repeated criticism. Two things help. Pass the argument (tell it what the next session is for) so the reasoning that bears on *that* is kept rather than flattened. And watch for confident claims the session never actually verified: "X isn't built", "Y is done". The next agent treats the document as a contract and will not re-check it, so a belief written as a fact becomes a false premise for everything that follows. Read the document before you hand it over, and downgrade anything you only assumed.
+A fair and repeated criticism. Pass the argument (tell it what the next session is for) so the reasoning that bears on *that* is kept rather than flattened. The evidence sections solve the more dangerous half: "X isn't built" and "Y is done" now land under Unverified unless the session can point to what it observed. The next agent gets the reason, the confidence boundary, and the original evidence separately.
 
 **Why is it a skill rather than a slash command?**
 Both work; they suit different situations. As a skill it ships and updates through the same install path as everything else here, which is what makes it shareable; the constraint that the agent won't fire it itself is set by its frontmatter rather than by the mechanism.
@@ -65,6 +67,7 @@ Both work; they suit different situations. As a skill it ships and updates throu
 ## It's working if
 
 - The document is a small fraction of the conversation, and the specs, issues and diffs appear in it as paths and URLs rather than as copied text.
+- Verified, Unverified, and Evidence pointers are all present, and no agent conclusion is promoted without an observation or source.
 - You can read it cold, without the original session open, and know what to do next.
 - The fresh agent starts working instead of asking you to re-explain the setup.
 - In the fork case, your original session is still sitting there untouched when you come back to it.
@@ -73,4 +76,4 @@ Both work; they suit different situations. As a skill it ships and updates throu
 
 ## Where it fits
 
-`handoff` is a **reach-for-it-anytime standalone** that lives at the seam between sessions rather than inside a build chain, but a narrow one, and the honest map is that you'll use it less often than the other four options at a phase boundary. Its closest neighbour is [prototype](https://aihero.dev/skills-prototype), because a prototype lives in its own directory and the round trip out and back is exactly the crossing this skill is for. When you're at a boundary and unsure whether to continue, clear, hand off, delegate or compact, [ask-matt](https://aihero.dev/skills-ask-matt) carries the tree that orders those five, and routes you over the rest of the set.
+`handoff` is a **reach-for-it-anytime standalone** that lives at the seam between sessions rather than inside a build chain, but a narrow one, and the honest map is that you'll use it less often than the other four options at a phase boundary. Its closest neighbour is [prototype](https://aihero.dev/skills-prototype), because a prototype lives in its own directory and the round trip out and back is exactly the crossing this skill is for. When you're at a boundary and unsure whether to continue, clear, hand off, delegate or compact, [ask-andre](https://github.com/abossard/skulls/blob/main/docs/engineering/ask-andre.md) carries the tree that orders those five, and routes you over the rest of the set.

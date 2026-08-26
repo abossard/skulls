@@ -1,8 +1,8 @@
 ## What it does
 
-`research` answers a question by reading the sources that own the answer, then leaves a cited Markdown file in the repo. It works only from **[primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source)**: official docs, source code, specs, first-party APIs. It follows every claim back to the source that owns it, so it will not repeat a blog post's account of an API when the API's own docs are reachable.
+`research` answers a scoped question by reading the sources that own the answer, then leaves an evidence table in a Markdown file. It works only from **[primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source)**: official docs, source code, specs, first-party APIs. Each finding is classified as a sourced fact, observed result, inference, or unresolved question.
 
-It does not answer you in the conversation. The output is a file, written where the repo already keeps such notes, with a link on each claim. That is the point: a document you can react to, hand to another agent, or throw away, rather than an answer that vanishes when the [session](https://www.aihero.dev/ai-coding-dictionary/session) ends.
+It does not answer you in the conversation. The output is a file, written where the repo already keeps such notes, with evidence, scope or version, checked date, and invalidation condition on every claim. That is the point: a document you can react to, hand to another agent, or throw away, rather than an answer that vanishes when the [session](https://www.aihero.dev/ai-coding-dictionary/session) ends.
 
 ## When to reach for it
 
@@ -18,11 +18,11 @@ Reach for it when the next step is *finding something out* from outside the work
 | To find out whether an approach works in your codebase | [prototype](https://aihero.dev/skills-prototype) |
 | A plan too big to hold in one session | [wayfinder](https://aihero.dev/skills-wayfinder) |
 
-The line between `research` and `grill-with-docs` is the **shelf life of what comes back**. Research produces short-lived assets: what this library's auth mechanism does as of this week. An ADR records a decision you keep. If what you are producing is a decision rather than a fact, you are [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), not researching.
+The line between `research` and `grill-with-docs` is the **shelf life of what comes back**. Research produces short-lived assets: what this library's auth mechanism does for one version, checked on one date, until one named change invalidates it. An ADR records a decision you keep. If what you are producing is a decision rather than a fact, you are [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), not researching.
 
 ## Delegated legwork
 
-The defining move is that the reading runs as a **background agent**. You keep working; it goes off, follows each claim to its primary source, writes one Markdown file, and reports back. Research is legwork you delegate, not thinking you outsource: you get a document to grill, plan, or design against, and you still make the call.
+The defining move is that the reading runs as a **background agent**. You keep working; it goes off, follows each sourced claim to its primary source, records observations separately from inferences, writes one Markdown file, and reports back. Research is legwork you delegate, not thinking you outsource: you get a document to grill, plan, or design against, and you still make the call.
 
 The delegation is unguarded, and the background agent can spawn a further background agent of its own. This is the skill's best-documented rough edge.
 
@@ -54,7 +54,7 @@ You can, and a two-line prompt saying exactly that was the practice this skill r
 
 **When does it stop reading?**
 
-There is no stopping criterion in the skill, and this shows up as two complaints that look opposite but are the same gap: agents that go far too deep, and agents that cover a topic broadly while missing the one specific detail that mattered. One practitioner put it as "deep-research skills are a bit too deep sometimes. And telling an agent to research usually results in missing crucial details." Scoping is on you. A narrow, answerable question (one API, one behaviour, one version claim) comes back far better than "research X".
+The file starts with an explicit stopping condition. The run ends when the scoped question can be answered, every answer-bearing claim is sourced or observed, and contradictions and unknowns are visible. It does not keep reading to make the document look comprehensive. If it cannot meet the condition, it returns a partial result marked **unresolved** rather than guessing.
 
 **`/wayfinder` created research tickets. Do I resolve those myself?**
 
@@ -65,9 +65,12 @@ No, it now fires them for you. In the unreleased changes since v1.1, a charting 
 - Your own session keeps going. If you are sitting watching it read, the delegation didn't happen.
 - Exactly one new background task appears. A second one with a near-identical name is the nesting bug.
 - One new Markdown file shows up, in the folder the repo already uses for notes, and the agent tells you the path.
-- Every claim in it carries a link, and following two at random lands you on an official doc, a spec, or the actual source file, not on someone's write-up of it.
+- The file names its exact question, scope, date, and stopping condition.
+- Every finding has a type, evidence pointer, scope or version, checked date, and invalidation condition.
+- Following two sourced facts at random lands you on an official doc, a spec, or the actual source file, not on someone's write-up of it.
+- Inferences stay labelled, and missing evidence appears as unresolved instead of confident prose.
 - You can make the decision you were stuck on from the file alone, without going back to the sources yourself.
 
 ## Where it fits
 
-A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](https://aihero.dev/skills-grilling) and [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ask sharper questions when the facts are already on the table, and [to-spec](https://aihero.dev/skills-to-spec) can synthesise against it. [wayfinder](https://aihero.dev/skills-wayfinder) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).
+A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](https://aihero.dev/skills-grilling) and [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ask sharper questions when the facts are already on the table, and [to-spec](https://aihero.dev/skills-to-spec) can synthesise against it. [wayfinder](https://aihero.dev/skills-wayfinder) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [ask-andre](https://github.com/abossard/skulls/blob/main/docs/engineering/ask-andre.md).

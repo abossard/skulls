@@ -32,6 +32,10 @@ The agent needs to know when it's done. Every agent brief must have concrete, te
 - **Good:** "Running `gh issue list --label needs-triage` returns issues that have been through initial classification"
 - **Bad:** "Triage should work correctly"
 
+### Named verification
+
+Pair every acceptance criterion with the method that should verify it: `test`, `command`, `browser run`, or `human judgment`. Name the public seam and expected observation, not a file or implementation detail. Human judgment is only for subjective decisions; it does not verify system behavior. Code review is static analysis and is never the verification method.
+
 ### Explicit scope boundaries
 
 State what is out of scope. This prevents the agent from gold-plating or making assumptions about adjacent features.
@@ -61,6 +65,14 @@ Be specific about edge cases and error conditions.
 - [ ] Specific, testable criterion 1
 - [ ] Specific, testable criterion 2
 - [ ] Specific, testable criterion 3
+
+**Verification:**
+
+| Acceptance criterion | Method | Expected observation |
+| --- | --- | --- |
+| Criterion 1 | test / command / browser run / human judgment | Observable result at the public seam |
+| Criterion 2 | test / command / browser run / human judgment | Observable result at the public seam |
+| Criterion 3 | test / command / browser run / human judgment | Observable result at the public seam |
 
 **Out of scope:**
 - Thing that should NOT be changed or addressed in this issue
@@ -98,6 +110,15 @@ and append "..." to indicate truncation.
       before 1024 chars
 - [ ] Truncated descriptions end with "..."
 - [ ] The total length including "..." does not exceed 1024 chars
+
+**Verification:**
+
+| Acceptance criterion | Method | Expected observation |
+| --- | --- | --- |
+| Short descriptions | test | A description below the limit is byte-for-byte unchanged |
+| Long descriptions | test | Truncation lands on the last complete word before the limit |
+| Ellipsis | test | Every truncated value ends in `...` |
+| Maximum length | test | Every returned description is at most 1024 characters |
 
 **Out of scope:**
 - Changing the 1024 char limit itself
@@ -139,6 +160,15 @@ checked for matches.
 - [ ] During triage, existing `.out-of-scope/` files are checked and surfaced
       when a new issue matches a prior rejection
 
+**Verification:**
+
+| Acceptance criterion | Method | Expected observation |
+| --- | --- | --- |
+| Create or update the record | command | Triaging a rejected enhancement leaves one concept record |
+| Record the decision | test | The record exposes its decision, reason, and issue link |
+| Reuse a matching record | test | A second matching request appends its link without a duplicate file |
+| Surface prior rejection | test | Triage reports the matching rejection before recommending a state |
+
 **Out of scope:**
 - Automated matching (human confirms the match)
 - Reopening previously rejected features
@@ -176,6 +206,15 @@ is untouched when the flag is absent.
 - [ ] Exit codes match the non-JSON command
 - [ ] A test covers the `--json` success output and one error case
 - [ ] Default (non-JSON) output is byte-for-byte unchanged
+
+**Verification:**
+
+| Acceptance criterion | Method | Expected observation |
+| --- | --- | --- |
+| JSON output | command | Success and error invocations parse as JSON |
+| Exit codes | command | JSON and non-JSON invocations return matching codes |
+| Regression coverage | test | The focused suite exercises one success and one error |
+| Default output | test | Output without `--json` is byte-for-byte unchanged |
 
 **Out of scope:**
 - Adding `--json` to any other command

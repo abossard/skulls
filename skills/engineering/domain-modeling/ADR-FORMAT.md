@@ -21,6 +21,7 @@ Only include these when they add genuine value. Most ADRs won't need them.
 - **Status** frontmatter (`proposed | accepted | deprecated | superseded by ADR-NNNN`): useful when decisions are revisited
 - **Considered Options**: only when the rejected alternatives are worth remembering
 - **Consequences**: only when non-obvious downstream effects need to be called out
+- **Evidence**: only when the decision depends on an external or observed claim. Classify the claim as sourced, observed, inferred, or unknown, then point to its evidence and record its scope or version, checked date, and what would invalidate it
 
 ## Numbering
 
